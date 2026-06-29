@@ -2423,6 +2423,11 @@ struct NavInstruction {
   }
 }
 
+struct AdvisorySpeedLimit {
+  speed @0 :Float32;
+  valid $1 :Bool;
+}
+
 struct NavRoute {
   coordinates @0 :List(Coordinate);
 
@@ -2592,6 +2597,7 @@ struct Event {
     navRoute @83 :NavRoute;
     navThumbnail @84: Thumbnail;
     mapRenderState @105: MapRenderState;
+    advisorySpeedLimit @150 :AdvisorySpeedLimit;
 
     # UI services
     uiDebug @102 :UIDebug;

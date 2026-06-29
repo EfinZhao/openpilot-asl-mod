@@ -69,6 +69,7 @@ _services: dict[str, tuple] = {
   "managerState": (True, 2., 1),
   "uploaderState": (True, 0., 1),
   "navInstruction": (True, 1., 10),
+  "advisorySpeedLimit": (True, 2., 1),
   "navRoute": (True, 0.),
   "navThumbnail": (True, 0.),
   "qRoadEncodeIdx": (False, 20.),
