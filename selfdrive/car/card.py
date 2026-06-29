@@ -7,6 +7,7 @@ import cereal.messaging as messaging
 
 from cereal import car, log
 
+from openpilot.common.constants import CV
 from openpilot.common.params import Params
 from openpilot.common.realtime import config_realtime_process, Priority, Ratekeeper
 from openpilot.common.swaglog import cloudlog, ForwardingHandler
@@ -162,6 +163,10 @@ class Car:
   def state_update(self) -> tuple[car.CarState, structs.RadarDataT | None]:
     """carState update loop, driven by can"""
 
+    raw = params.get("AdvisorySpeedLimit")
+    if raw is not None:
+      asl_target_kph = float(raw) * CV.MPH_TO_KPH
+
     can_strs = messaging.drain_sock_raw(self.can_sock, wait_for_one=True)
     can_list = can_capnp_to_list(can_strs)
 
@@ -188,6 +193,10 @@ class Car:
     if self.sm['carControl'].enabled and not self.CC_prev.enabled:
       # Use CarState w/ buttons from the step selfdrived enables on
       self.v_cruise_helper.initialize_v_cruise(self.CS_prev, self.experimental_mode)
+
+      if asl_target_kph is not None:
+        self.v_cruise_helper.v_cruise_kph = asl_target_kph
+        self.v_cruise_helper.v_cruise_cluster_kph = asl_target_kph
 
     # TODO: mirror the carState.cruiseState struct?
     CS.vCruise = float(self.v_cruise_helper.v_cruise_kph)
