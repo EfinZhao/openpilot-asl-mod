@@ -163,9 +163,8 @@ class Car:
   def state_update(self) -> tuple[car.CarState, structs.RadarDataT | None]:
     """carState update loop, driven by can"""
 
-    raw = params.get("AdvisorySpeedLimit")
-    if raw is not None:
-      asl_target_kph = float(raw) * CV.MPH_TO_KPH
+    raw = self.params.get("AdvisorySpeedLimit")
+    asl_target_kph = float(raw) * CV.MPH_TO_KPH if raw is not None else None
 
     can_strs = messaging.drain_sock_raw(self.can_sock, wait_for_one=True)
     can_list = can_capnp_to_list(can_strs)
