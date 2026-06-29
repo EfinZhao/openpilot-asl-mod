@@ -2425,7 +2425,7 @@ struct NavInstruction {
 
 struct AdvisorySpeedLimit {
   speed @0 :Float32;
-  valid $1 :Bool;
+  valid @1 :Bool;
 }
 
 struct NavRoute {
