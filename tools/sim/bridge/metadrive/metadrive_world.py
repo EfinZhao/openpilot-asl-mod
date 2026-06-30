@@ -70,6 +70,10 @@ class MetaDriveWorld(World):
       self.vc[0] = 0
       self.vc[1] = 0
 
+    print(f"========== DEBUG:")
+    print(f"========== [{throttle_out=}]")
+    print(f"========== [{brake_out=}]")
+
     self.controls_send.send([*self.vc, self.should_reset])
     self.should_reset = False
 
