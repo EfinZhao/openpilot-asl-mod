@@ -27,23 +27,13 @@ def curve_block(length, angle=45, direction=0):
     "dir": direction
   }
 
-def create_map(track_size=60):
+def create_map(track_size=100):
   curve_len = track_size * 2
   return dict(
     type=MapGenerateMethod.PG_MAP_FILE,
     lane_num=2,
     lane_width=4.5,
-    config=[
-      None,
-      straight_block(track_size),
-      curve_block(curve_len, 90),
-      straight_block(track_size),
-      curve_block(curve_len, 90),
-      straight_block(track_size),
-      curve_block(curve_len, 90),
-      straight_block(track_size),
-      curve_block(curve_len, 90),
-    ]
+    config=[None] + [straight_block(track_size) for _ in range(track_size)]
   )
 
 
