@@ -19,6 +19,9 @@ class ASLController:
     def _adjust_asl(self, amt: int):
         self.speed += amt
 
+    def _set_asl(self, spd: int):
+        self.speed = spd
+
     def _quit_test(self):
         print("[info] User requested test quit. Come to a stop safely!")
         exit()
@@ -37,11 +40,19 @@ def main():
     }
 
     while True:
+        # TODO: learn how to do input polling like the comma ai tunnel script and implement that here
         inpt: str = input("[info] Enter a command: ")
-        if inpt not in INPUT_MAP:
+        try:
+            inpt = int(inpt)
+        except Exception as e:
+            print(e)
+        if inpt not in INPUT_MAP and not isinstance(inpt, int):
             print("[ERR!] command not found.")
             continue
-        INPUT_MAP[inpt]()
+        if isinstance(inpt, int):
+            testASL._set_asl(inpt)
+        else:
+            INPUT_MAP[inpt]()
         testASL._publish_asl_message()
 
 if __name__ == "__main__":
